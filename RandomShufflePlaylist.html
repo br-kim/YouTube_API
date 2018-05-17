@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <div id="player"></div>
+    <script>
+      var tag = document.createElement('script');
+      tag.src = "https://www.youtube.com/iframe_api";
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+      var player;
+      var Randomnum = Math.floor(Math.random() * 200) + 1; //Range 1-200 Random choose
+
+      function onYouTubeIframeAPIReady() {
+          player = new YT.Player('player',
+              { 
+                height: '360',
+                width: '640',
+                playerVars: 
+                    {
+                        listType:'playlist',
+                        list: 'YOUR_PLAYLIST_ID', //insert your playlist id. 
+                        index : Randomnum
+                    },
+                events: { 'onReady': onPlayerReady, 'onError': PassVideo }
+              }
+              );
+      }
+      function onPlayerReady(event) {
+          event.target.playVideo();
+          setTimeout(setShuffleFunction, 1000);
+      }
+      function setShuffleFunction() {
+          player.setShuffle(true);
+      }
+      function PassVideo(event) {
+          if ((event.data == 100) || (event.data == 101) || (event.data == 150)) {
+              player.nextVideo();
+          }
+      }
+
+    </script>
+</body>
+</html>
